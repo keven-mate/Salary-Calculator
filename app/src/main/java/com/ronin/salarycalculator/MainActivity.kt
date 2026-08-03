@@ -44,6 +44,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.ronin.salarycalculator.screens.HomeScreen
+import com.ronin.salarycalculator.screens.SettingsScreen
 import com.ronin.salarycalculator.ui.theme.SalaryCalculatorTheme
 
 class MainActivity : ComponentActivity() {
@@ -52,12 +58,30 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SalaryCalculatorTheme {
-                val context = LocalContext.current
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = "home"
+                ) {
+                    composable("home") { HomeScreen(navController) }
+                    composable("settings") { SettingsScreen(navController) }
+                }
+
+                /*val context = LocalContext.current
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = "home"
+                ) {
+                    composable("home") { HomeScreen(navController) }
+                    composable("settings") { SettingsScreen(navController) }
+                }
                 Scaffold(
                     topBar = {
                         MyTopAppBar(
-                            context1 = context,
-                            message1 = "You Click on Menu",
+                            navController,
                             icon1 = R.drawable.baseline_menu_24,
                             context2 = context,
                             message2 = "You Clicked on Settings",
@@ -87,15 +111,15 @@ class MainActivity : ComponentActivity() {
                     Box(
                         modifier = Modifier.padding(innerPadding)
                     )
-                    CalculatorApp()
-                }
+                    CalculatorApp(navController)
+                }*/
             }
         }
     }
 }
 
-@Composable
-fun CalculatorApp() {
+/*@Composable
+fun CalculatorApp(navController: NavController) {
     var salary by remember { mutableStateOf("") }
     var daysWorked by remember { mutableStateOf("") }
     var calcSalary by remember { mutableDoubleStateOf(0.0) }
@@ -175,7 +199,8 @@ fun CustomTextField(
     leadingIcon: Int,
     placeholder: String,
     keyboardOptions: KeyboardOptions,
-    isError: Boolean
+    isError: Boolean,
+
 ) {
     TextField(
         value = text,
@@ -217,8 +242,7 @@ fun CustomButton(label: String, onClick: () -> Unit, modifier: Modifier = Modifi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopAppBar(
-    context1: Context,
-    message1: String,
+    navController: NavController,
     icon1: Int,
     context2: Context,
     message2: String,
@@ -233,10 +257,7 @@ fun MyTopAppBar(
         navigationIcon = {
             IconButton(
                 onClick = {
-                    Toast.makeText(
-                        context1,
-                        message1,
-                        Toast.LENGTH_SHORT).show()
+                    navController.navigate("settings")
                 }) {
                 Icon(
                     painter = painterResource(icon1),
@@ -366,7 +387,7 @@ fun CustomCard(text: String) {
             modifier = Modifier.padding(16.dp)
         )
     }
-}
+}*/
 
 fun salaryCalculate(salary: Double, daysWorked: Int = 30): Double {
     return salary / daysWorked
