@@ -21,6 +21,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -59,10 +61,10 @@ fun HomeScreen(navController: NavController) {
                 iconMenu = R.drawable.baseline_menu_24,
                 title = "Salary Calculator",
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.primary,
-                    actionIconContentColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 iconSettings = R.drawable.baseline_build_24
             )
@@ -73,8 +75,8 @@ fun HomeScreen(navController: NavController) {
                 icon1 = R.drawable.baseline_home_24,
                 icon2 = R.drawable.baseline_history_24,
                 icon3 = R.drawable.baseline_people_alt_24,
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             )
         },
         floatingActionButton = {
@@ -104,6 +106,15 @@ fun HomeScreen(navController: NavController) {
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next,
                 isError = salary.isNotEmpty() && salary.toDoubleOrNull() == null,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    cursorColor = MaterialTheme.colorScheme.primary
+                )
             )
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -116,7 +127,10 @@ fun HomeScreen(navController: NavController) {
                 placeHolder = 30.toString(),
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done,
-                isError = daysWorked.isNotEmpty() && daysWorked.toIntOrNull() == null
+                isError = daysWorked.isNotEmpty() && daysWorked.toIntOrNull() == null,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                )
             )
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -156,8 +170,7 @@ fun HomeScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            //ExhibitionText("Salary Per Day: ${salary.toDouble()/30.0}")
-            CustomCard("Salary by Worked Days: $calcSalary")
+            CustomCard("Salary by Worked Days: ${"%.2f".format(calcSalary)}")
         }
     }
 }
@@ -171,7 +184,8 @@ fun CustomTextField(
     placeHolder: String,
     keyboardType: KeyboardType,
     imeAction: ImeAction,
-    isError: Boolean
+    isError: Boolean,
+    colors: TextFieldColors
 ) {
     TextField(
         value = text,
