@@ -41,6 +41,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ronin.salarycalculator.salaryCalculate
 import com.ronin.salarycalculator.R
 import com.ronin.salarycalculator.barsandfab.CustomBottomAppbar
+import com.ronin.salarycalculator.barsandfab.CustomFloatingActionButton
 import com.ronin.salarycalculator.barsandfab.CustomTopAppBar
 import com.ronin.salarycalculator.ui.theme.SalaryCalculatorTheme
 
@@ -74,6 +75,13 @@ fun HomeScreen(navController: NavController) {
                 icon3 = R.drawable.baseline_people_alt_24,
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.primary
+            )
+        },
+        floatingActionButton = {
+            CustomFloatingActionButton(
+                icon = R.drawable.baseline_add_24,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.surface
             )
         }
     ) { innerPadding ->
